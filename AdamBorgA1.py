@@ -10,15 +10,33 @@ def main():
     import csv
 
     open_list = csv.reader(open("items.csv", 'r'))
+    user_input = 'i'
 
     item_count = 0
     shopping_list = []
+    count = -1
 
     for row in open_list:
         shopping_list.append(row)
 
         item_count += 1
 
+    shopping_list = sorted(shopping_list, key = lambda shopping_list: shopping_list[2])
+
     print("Hi Welcome to Shopping List 1.0 - by Adam Borg \n{} items loaded from items.csv".format(item_count))
+
+    while user_input != 'q':
+        print("Menu: \nR - List Required items \nC - List completed items \nA - Add new item \nM - Mark an item as completed \nQ - Quit")
+        user_input = str(input().lower())
+
+        if user_input == 'r':
+            for item_information in shopping_list:
+                count += 1
+                if item_information[3] == 'r':
+                    print("{}. {:17} ${:5.2f} ({})".format(count, item_information[0], float(item_information[1]), item_information[2]))
+
+
+
+
 
 main()
