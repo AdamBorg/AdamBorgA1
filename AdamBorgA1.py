@@ -18,7 +18,7 @@ def main():
         shopping_list.append(row)
         item_count += 1
 
-    shopping_list = sorted(shopping_list, key=lambda shopping_list: shopping_list[2])
+    shopping_list = sorted(shopping_list, key=lambda shopping: shopping_list[2])
 
     print("Hi Welcome to Shopping List 1.0 - by Adam Borg \n{} items loaded from items.csv".format(item_count))
 
@@ -37,7 +37,7 @@ def main():
                 item_selected = int(input("Enter the number of an item to mark as completed?\n"))
                 shopping_list[item_selected][3] = 'c'
                 print("{} marked as completed".format(shopping_list[item_selected][0]))
-                shopping_list = sorted(shopping_list, key=lambda shopping_list: shopping_list[3], reverse=True)
+                shopping_list = sorted(shopping_list, key=lambda shopping: shopping_list[3], reverse=True)
 
         elif user_input == 'a':
             add_item = [0, 0, 0, 0]
@@ -46,7 +46,7 @@ def main():
             add_item[2] = str(input("Priority: "))
             add_item[3] = 'r'
             shopping_list.append(add_item)
-            shopping_list = sorted(shopping_list, key=lambda shopping_list: shopping_list[2])
+            shopping_list = sorted(shopping_list, key=lambda shopping: shopping_list[2])
 
     open_write = csv.writer(open("items.csv", 'w', newline=''))
 
