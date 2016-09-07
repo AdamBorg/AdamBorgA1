@@ -6,7 +6,6 @@
 
 
 def main():
-
     import csv
 
     user_input = 'Initiate Variable'
@@ -15,12 +14,11 @@ def main():
     item_count = 0
     shopping_list = []
 
-
     for row in open_read:
         shopping_list.append(row)
         item_count += 1
 
-    shopping_list = sorted(shopping_list, key = lambda shopping_list: shopping_list[2])
+    shopping_list = sorted(shopping_list, key=lambda shopping_list: shopping_list[2])
 
     print("Hi Welcome to Shopping List 1.0 - by Adam Borg \n{} items loaded from items.csv".format(item_count))
 
@@ -42,7 +40,7 @@ def main():
                 shopping_list = sorted(shopping_list, key=lambda shopping_list: shopping_list[3], reverse=True)
 
         elif user_input == 'a':
-            add_item = [0,0,0,0]
+            add_item = [0, 0, 0, 0]
             add_item[0] = str(input("Item name: "))
             add_item[1] = str(input("Price: $"))
             add_item[2] = str(input("Priority: "))
@@ -50,10 +48,11 @@ def main():
             shopping_list.append(add_item)
             shopping_list = sorted(shopping_list, key=lambda shopping_list: shopping_list[2])
 
-    open_write = csv.writer(open("items.csv", 'w',newline=''))
+    open_write = csv.writer(open("items.csv", 'w', newline=''))
 
     for items in shopping_list:
         open_write.writerow(items)
+
 
 def print_lists(shopping_list, user_input):
     list_count = -1
@@ -85,5 +84,6 @@ def print_lists(shopping_list, user_input):
         print("Total expected price for {} items: $ {:.2f}".format(number_of_items, total_cost))
 
     return total_cost
+
 
 main()
