@@ -9,13 +9,14 @@ def main():
 
     import csv
 
-    open_list = csv.reader(open("items.csv", 'r'))
     user_input = 'Initiate Variable'
+    open_read = csv.reader(open("items.csv", 'r', ))
 
     item_count = 0
     shopping_list = []
 
-    for row in open_list:
+
+    for row in open_read:
         shopping_list.append(row)
         item_count += 1
 
@@ -28,20 +29,31 @@ def main():
               "completed \nQ - Quit")
         user_input = str(input().lower())
 
-        if user_input == 'c':
-            print_lists(shopping_list, user_input)
-
-        elif user_input == 'r':
+        if user_input == 'c' or user_input == 'r':
             print_lists(shopping_list, user_input)
 
         elif user_input == 'm':
-            print_lists(shopping_list, user_input)
+            asd = print_lists(shopping_list, user_input)
 
-            item_selected = int(input("Enter the number of an item to mark as completed?\n"))
-            shopping_list[item_selected][3] = 'c'
-            print("{} marked as completed".format(shopping_list[item_selected][0]))
-            shopping_list = sorted(shopping_list, key=lambda shopping_list: shopping_list[3], reverse=True)
+            if asd != 0:
+                item_selected = int(input("Enter the number of an item to mark as completed?\n"))
+                shopping_list[item_selected][3] = 'c'
+                print("{} marked as completed".format(shopping_list[item_selected][0]))
+                shopping_list = sorted(shopping_list, key=lambda shopping_list: shopping_list[3], reverse=True)
 
+        elif user_input == 'a':
+            add_item = [0,0,0,0]
+            add_item[0] = str(input("Item name: "))
+            add_item[1] = str(input("Price: $"))
+            add_item[2] = str(input("Priority: "))
+            add_item[3] = 'r'
+            shopping_list.append(add_item)
+            shopping_list = sorted(shopping_list, key=lambda shopping_list: shopping_list[2])
+
+    open_write = csv.writer(open("items.csv", 'w',newline=''))
+
+    for items in shopping_list:
+        open_write.writerow(items)
 
 def print_lists(shopping_list, user_input):
     list_count = -1
@@ -49,6 +61,11 @@ def print_lists(shopping_list, user_input):
 
     if user_input == 'm':
         user_input = 'r'
+
+    if user_input == 'c':
+        list_type = 'completed'
+    else:
+        list_type = 'required'
 
     for item_information in shopping_list:
 
@@ -63,8 +80,10 @@ def print_lists(shopping_list, user_input):
             total_cost += float(item_information[1])
 
     if total_cost == 0:
-        print("No completed items")
+        print("No {} items".format(list_type))
     else:
         print("Total expected price for {} items: $ {:.2f}".format(number_of_items, total_cost))
+
+    return total_cost
 
 main()
