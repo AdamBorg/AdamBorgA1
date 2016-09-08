@@ -1,16 +1,55 @@
-""" Name: Adam Borg
+""" IT@JCU CP1404 Assignment 1
+    Shopping List 1.0
+    Name: Adam Borg
     date: 09/09/2016
-    Program Details: Shopping list allows the user to open a csv file and then read and write to it depending on what
-                     they need from the store. Each item in the list can also be assigned a priority of importance.
-    GitHub Link: https://github.com/AdamBorg/AdamBorgA1.git"""
+    GitHub Link: https://github.com/AdamBorg/AdamBorgA1.git
+
+Pseudocode:
+
+function load_items()
+    create a list to save items to
+    open items.csv to read contents
+    for every line in items.csv
+        save line to the created list
+    return the list to the main function
+
+function complete an item(shopping_list, user_input)
+    print the required items list
+    save total costs of all items in required list to variable
+    setup boolean variable make it equal to false
+    if total costs is not equal to zero
+       sort shopping list to move required items to top of list
+
+        while run til loop is broken
+            try:
+                if boolean value is false
+                    get user to enter what item they would like to complete
+                    switch boolean value to true so that this input message w
+                else:
+                    get user to enter what item they would like to complete
+                if item number chosen is above 0 and has not already been completed
+                    break while loop
+                else:
+                    print error message
+            except if user enters a character or string
+                print error message
+            except enters a number greater than the size of the list
+                print error message
+        mark the item as completed
+        print message saying item as been completed
+        resort list to be back in priority before return list to main
+    return the list to main
+
+"""
 
 from csv import *
 
 
 def main():
+    """Shopping list allows the user to open a csv file and then read and write to it depending on what
+    they need from the store. Each item in the list can also be assigned a priority of importance."""
     user_input = 'Initiate Variable'
 
-    total_cost = 0
     shopping_list = load_items()
     shopping_list = sorted(shopping_list, key=lambda shopping_list: shopping_list[2])
 
@@ -44,6 +83,7 @@ def main():
 
 
 def add_items(shopping_list):
+    """ Add items to the shopping the list"""
     item_name = str(input("Item name: ").strip())
     while item_name == "":
         print("Input can not be blank")
@@ -63,7 +103,7 @@ def add_items(shopping_list):
     while True:
         try:
             item_priority = str(input("Priority: "))
-            if int(item_priority) < 3 and int(item_priority) > 0:
+            if int(item_priority) <= 3 and int(item_priority) > 0:
                 break
             else:
                 print("Priority must be 1, 2 or 3")
@@ -73,11 +113,12 @@ def add_items(shopping_list):
     add_item = [item_name, item_price, item_priority, 'r']
     shopping_list.append(add_item)
     shopping_list = sorted(shopping_list, key=lambda shopping_list: shopping_list[2])
-    print("{}, {} (priority {}) added to shopping list".format(item_name, item_price, item_priority))
+    print("{}, ${:.2f} (priority {}) added to shopping list".format(item_name, float(item_price), item_priority))
     return shopping_list
 
 
 def complete_an_item(shopping_list, user_input):
+    """ will mark the item in the shopping list as complete """
     anymore_items = print_lists(shopping_list, user_input)
     instruct_user = False
     if anymore_items != 0:
@@ -105,6 +146,7 @@ def complete_an_item(shopping_list, user_input):
 
 
 def load_items():
+    """ loads items from a csv file so that it can be used to see what is needed"""
     open_read = reader(open("items.csv", 'r', ))
     shopping_list = []
     for row in open_read:
@@ -114,6 +156,7 @@ def load_items():
 
 
 def print_lists(shopping_list, user_input):
+    """ prints list desired by user; calculates the total cost of that list """
     list_count = -1
     number_of_items = 0
     total_cost = 0
