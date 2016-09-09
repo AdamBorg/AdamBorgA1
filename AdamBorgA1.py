@@ -60,9 +60,11 @@ def main():
               "completed \nQ - Quit")
         user_input = str(input().lower())
 
+        # Error Check for Menu
         if user_input not in 'rcamq':
             print("Invalid menu choice")
 
+        # Takes user inputs displays correct menu
         if user_input == 'c' or user_input == 'r':
             print_lists(shopping_list, user_input)
             shopping_list = sorted(shopping_list, key=lambda shopping_list: shopping_list[2])
@@ -73,22 +75,26 @@ def main():
         elif user_input == 'a':
             shopping_list = add_items(shopping_list)
 
+    # Write added and completed items back to list
     open_write = writer(open("items.csv", 'w', newline=''))
 
     for items in shopping_list:
         open_write.writerow(items)
 
+    # Farewell message
     print("{} items saved to items.csv".format(len(shopping_list)))
     print("Have a nice day :)")
 
 
 def add_items(shopping_list):
     """ Add items to the shopping the list"""
+    # Get name of item and error check
     item_name = str(input("Item name: ").strip())
     while item_name == "":
         print("Input can not be blank")
         item_name = str(input("Item name: ").strip())
 
+    # Get Price of item and error check
     while True:
         try:
             item_price = str(input("Price: $"))
@@ -100,6 +106,7 @@ def add_items(shopping_list):
         except ValueError:
             print("Invalid input; enter a valid number")
 
+    # Get priority of item and error check
     while True:
         try:
             item_priority = str(input("Priority: "))
@@ -110,6 +117,7 @@ def add_items(shopping_list):
         except ValueError:
             print("Invalid input; enter a valid number")
 
+    #Set item status as required; print details of added item
     add_item = [item_name, item_price, item_priority, 'r']
     shopping_list.append(add_item)
     shopping_list = sorted(shopping_list, key=lambda shopping_list: shopping_list[2])
@@ -119,9 +127,12 @@ def add_items(shopping_list):
 
 def complete_an_item(shopping_list, user_input):
     """ will mark the item in the shopping list as complete """
-    anymore_items = print_lists(shopping_list, user_input)
+    # If total cost is equal to 0 there is no items of that status
+    total_cost = print_lists(shopping_list, user_input)
     instruct_user = False
-    if anymore_items != 0:
+
+    # Get selected item from user; error check input; change item status
+    if total_cost != 0:
         shopping_list = sorted(shopping_list, key=lambda shopping_list: shopping_list[3], reverse=True)
 
         while True:
@@ -161,6 +172,7 @@ def print_lists(shopping_list, user_input):
     number_of_items = 0
     total_cost = 0
 
+    # re-assign m to r as the registered list is required for completing an item
     if user_input == 'm':
         user_input = 'r'
 
@@ -173,6 +185,7 @@ def print_lists(shopping_list, user_input):
         if item_information[3] == user_input:
             total_cost += float(item_information[1])
 
+    # print correct message to user; menu or no items
     if total_cost == 0:
         print("No {} items".format(list_type.lower()))
     else:
