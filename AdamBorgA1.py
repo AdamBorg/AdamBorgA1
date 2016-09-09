@@ -58,7 +58,7 @@ def main():
     while user_input != 'q':
         print("Menu: \nR - List Required items \nC - List completed items \nA - Add new item \nM - Mark an item as "
               "completed \nQ - Quit")
-        user_input = str(input().lower())
+        user_input = str(input(">>> ").lower())
 
         # Error Check for Menu
         if user_input not in 'rcamq':
@@ -117,7 +117,7 @@ def add_items(shopping_list):
         except ValueError:
             print("Invalid input; enter a valid number")
 
-    #Set item status as required; print details of added item
+    # Set item status as required; print details of added item
     add_item = [item_name, item_price, item_priority, 'r']
     shopping_list.append(add_item)
     shopping_list = sorted(shopping_list, key=lambda shopping_list: shopping_list[2])
@@ -138,10 +138,10 @@ def complete_an_item(shopping_list, user_input):
         while True:
             try:
                 if instruct_user:
-                    item_selected = int(input("Enter the number of an item to mark as completed?\n"))
+                    item_selected = int(input("Enter the number of an item to mark as completed?\n >>> "))
                     instruct_user = True
                 else:
-                    item_selected = int(input())
+                    item_selected = int(input(">>> "))
                 if item_selected >= 0 and shopping_list[item_selected][3] == 'r':
                     break
                 else:
